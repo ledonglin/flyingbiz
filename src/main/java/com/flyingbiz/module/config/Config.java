@@ -40,8 +40,7 @@ public class Config {
 	 * 
 	 */
 	public static boolean loadProperties(final String filename) {
-//		InputStream is = Config.class.getResourceAsStream("/" + filename); //ClassLoader.getSystemResourceAsStream(filename);
-		InputStream is = Config.class.getClassLoader().getResourceAsStream(filename); //ClassLoader.getSystemResourceAsStream(filename);
+		InputStream is = Config.class.getClassLoader().getResourceAsStream(filename);
 		BufferedReader bf = new BufferedReader(new InputStreamReader(is));
 
 		try {
