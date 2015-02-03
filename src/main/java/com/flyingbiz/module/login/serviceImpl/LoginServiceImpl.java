@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.flyingbiz.module.login.dao.LoginLogDao;
 import com.flyingbiz.module.login.dao.UserDao;
@@ -21,6 +22,7 @@ public class LoginServiceImpl implements LoginService {
 	private LoginLogDao loginLogDao;
 
 	@Override
+	@Transactional
 	public User userLogin(User user, LoginLog loginLog) {
 		User dbUser = this.userDao.findUserByLoginName(user.getUserName());
 		if (null != dbUser) {

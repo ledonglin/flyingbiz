@@ -15,9 +15,12 @@
 	</bean>
 
 
-	<!-- 自动扫面注解包 -->
+	<!-- 自动扫描注解包 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.flyingbiz.module" />
+	<context:component-scan base-package="com.flyingbiz.module.login" >
+	<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
 
 	<!-- 数据源 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -42,6 +45,7 @@
 				<!-- 会自动创表，但是不会自动创建数据库，所以要先手动创建数据库。 -->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.format_sql">true</prop>
+				<prop key="current_session_context_class">thread</prop>
 			</props>
 		</property>
 	</bean>
@@ -51,7 +55,7 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+<!--  	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="save*" propagation="REQUIRED" />
 			<tx:method name="add*" propagation="REQUIRED" />
@@ -62,21 +66,20 @@
 			<tx:method name="del*" propagation="REQUIRED" />
 			<tx:method name="remove*" propagation="REQUIRED" />
 			<tx:method name="put*" propagation="REQUIRED" />
-			<tx:method name="use*" propagation="REQUIRED" />
-			<tx:method name="user*" propagation="REQUIRED" />
-			<!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 -->
-			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="user*" propagation="REQUIRED"/>
+			<tx:method name="get*" propagation="REQUIRED" />
 			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
-			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true"/>
 			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" />
 		</tx:attributes>
 	</tx:advice>
 	
 	<aop:config proxy-target-class="true">
-		<aop:advisor advice-ref="txAdvice"
-			pointcut="execution(* com.flyingbiz.module.login.service.*.*(..))" />
+	<aop:pointcut id="txService" expression="execution(* com.flyingbiz.module.login.serviceImpl.*.*(..))"/>
+	<aop:advisor advice-ref="txAdvice" pointcut-ref="txService"/>
 	</aop:config>
-
-<!-- 	<tx:annotation-driven transaction-manager="transactionManager" />
- -->
+  -->
+   	<tx:annotation-driven transaction-manager="transactionManager" />
+ 
 </beans>

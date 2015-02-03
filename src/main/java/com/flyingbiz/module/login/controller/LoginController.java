@@ -1,5 +1,6 @@
 package com.flyingbiz.module.login.controller;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +55,7 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(HttpServletRequest request, User user) {
+	public ModelAndView login(HttpServletRequest request, User user) throws IOException {
 		logger.debug("User : " + user + " login start...");
 
 		ModelAndView mv = new ModelAndView();
