@@ -22,7 +22,6 @@ public class LoginServiceImpl implements LoginService {
 	private LoginLogDao loginLogDao;
 
 	@Override
-	@Transactional
 	public User userLogin(User user, LoginLog loginLog) {
 		User dbUser = this.userDao.findUserByLoginName(user.getUserName());
 		if (null != dbUser) {

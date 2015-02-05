@@ -17,7 +17,7 @@
 
 	<!-- 自动扫描注解包 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.flyingbiz.module.login" >
+	<context:component-scan base-package="com.flyingbiz.module" >
 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	</context:component-scan>
@@ -55,7 +55,7 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-<!--  	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+  	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="save*" propagation="REQUIRED" />
 			<tx:method name="add*" propagation="REQUIRED" />
@@ -75,11 +75,21 @@
 		</tx:attributes>
 	</tx:advice>
 	
+	<aop:aspectj-autoproxy />
+	
 	<aop:config proxy-target-class="true">
-	<aop:pointcut id="txService" expression="execution(* com.flyingbiz.module.login.serviceImpl.*.*(..))"/>
-	<aop:advisor advice-ref="txAdvice" pointcut-ref="txService"/>
+		<aop:pointcut id="txService" expression="execution(* com.flyingbiz.module.login.serviceImpl.*.*(..)) or execution(* com.flyingbiz.module.pic.serviceImpl.*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txService"/>
+			
+		<!--Service层记录日志 -->
+		<aop:aspect ref="serviceLog">
+			<aop:before method="logBefore" pointcut-ref="txService"/>
+			<aop:after method="logAfter" pointcut-ref="txService"/>
+	  	</aop:aspect>
 	</aop:config>
-  -->
-   	<tx:annotation-driven transaction-manager="transactionManager" />
- 
+
+	<bean id="serviceLog" class="" />
+
+<!--    	<tx:annotation-driven transaction-manager="transactionManager" />
+ --> 
 </beans>

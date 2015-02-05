@@ -1,14 +1,19 @@
+import static org.junit.Assert.*;
+
 import java.util.UUID;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.flyingbiz.module.login.model.User;
 
 
-public class UserServiceTest {
+public class Service {
 
 	User user;
 	ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-context.xml");
